@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  db:
+    image: mariadb
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: sxvtc@12A
+      MYSQL_USER: root
+      MYSQL_PASSWORD: sxvtc@12A
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: auth0app:dev
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/project
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+
+volumes:
+  db-data:
